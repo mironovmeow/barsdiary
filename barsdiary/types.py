@@ -153,7 +153,7 @@ class DiaryDayObject(BaseModel):
     def info(self, is_chat: bool, lesson_id: Optional[int] = None) -> str:
         text = f"📅 {_day_of_week[self.date.weekday()]} [{self.date_str}]\n\n"
         if not self.lessons:
-            text += self.kind
+            text += self.kind or ""
         elif lesson_id is None:
             text += "\n\n".join(lesson.info(is_chat) for lesson in self.lessons)
         else:
@@ -214,8 +214,11 @@ class ProgressDataObject(BaseModel):
         return _check_value_of_mark(value)
 
     def info(self) -> str:
-        return "\n".join(f"{_bar(mark)} [{mark:.2f}] {subject}"
-                         for subject, mark in sorted(self.data.items(), key=lambda v: (-v[1], v[0])))
+        if self.data:
+            return "\n".join(f"{_bar(mark)} [{mark:.2f}] {subject}"
+                             for subject, mark in sorted(self.data.items(), key=lambda v: (-v[1], v[0])))
+        else:
+            return ""
 
 
 class ProgressAverageObject(BaseResponse):

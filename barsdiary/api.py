@@ -4,14 +4,9 @@ Api module (on aiohttp)
 from typing import Optional, Type
 
 from aiohttp import ClientResponse, ClientSession, ClientTimeout, ContentTypeError, TCPConnector
+from loguru import logger
 
 from . import types
-
-try:
-    from loguru import logger
-except ImportError:
-    from logging import Logger
-    logger = Logger("diary")
 
 
 async def _check_response(r: ClientResponse, session: ClientSession) -> dict:
@@ -100,6 +95,8 @@ class DiaryApi:
         ) as r:
             json = await _check_response(r, session)
             diary_cookie = r.cookies.get("sessionid")
+            if not diary_cookie:
+                raise ValueError("Authorization failed. No cookie.")
 
             return cls(session, diary_cookie.value, json)
 
