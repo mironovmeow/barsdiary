@@ -28,13 +28,13 @@ async def _check_response(r: ClientResponse, session: ClientSession) -> dict:
             json["kind"] = json["error"]
 
         if json.get("success", False) is False:
-            logger.info(f"Request failed. Not success.")
+            logger.info("Request failed. Not success.")
             raise types.APIError(r, session, json=json)
 
         return json
 
     except ContentTypeError:
-        logger.info(f"Request failed. ContentTypeError")
+        logger.info("Request failed. ContentTypeError")
         raise types.APIError(r, session)
 
 
