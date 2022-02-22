@@ -38,16 +38,16 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      # formatter
+      # formatters
       - name: Run black
         run: poetry run black barsdiary --check
+
+      - name: Run isort
+        run: poetry run isort barsdiary --check
 
       # linters
       - name: Run flake8
         run: poetry run flake8
-
-      - name: Run isort
-        run: poetry run isort barsdiary --check
 
       - name: Run mypy
         run: poetry run mypy barsdiary
@@ -89,7 +89,7 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      # no linters
+      # no formatters and linters
 
       # tests
       - name: Run pytest

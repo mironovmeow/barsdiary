@@ -9,15 +9,15 @@ repos:
         types: [ python ]
         language: system
 
-      - id: flake8
-        name: flake8
-        entry: poetry run flake8
-        types: [ python ]
-        language: system
-
       - id: isort
         name: isort
         entry: poetry run isort
+        types: [ python ]
+        language: system
+
+      - id: flake8
+        name: flake8
+        entry: poetry run flake8
         types: [ python ]
         language: system
 
