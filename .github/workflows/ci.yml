@@ -6,11 +6,13 @@ on:
     paths:
       - 'barsdiary/**'
       - '.flake8'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [ master, dev ]
     paths:
       - 'barsdiary/**'
       - '.flake8'
+      - '.github/workflows/ci.yml'
 
 jobs:
   full-testing:
