@@ -1,8 +1,38 @@
+default_stages: [ commit ]
+
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v3.2.0
-  hooks:
-  -   id: trailing-whitespace
-  -   id: end-of-file-fixer
-  -   id: check-yaml
-  -   id: check-added-large-files
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: poetry run black
+        types: [ python ]
+        language: system
+
+      - id: flake8
+        name: flake8
+        entry: poetry run flake8
+        types: [ python ]
+        verbose: true
+        language: system
+
+      - id: isort
+        name: isort
+        entry: poetry run isort
+        types: [ python ]
+        verbose: true
+        language: system
+
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy barsdiary
+        verbose: true
+        language: system
+        pass_filenames: false
+
+      - id: pytest
+        name: pytest
+        entry: poetry run pytest
+        verbose: true
+        language: system
+        pass_filenames: false

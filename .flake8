@@ -1,2 +1,5 @@
 [flake8]
-ignore = F401, E501
+max-line-length = 99
+# E203 https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-breaks-binary-operators
+# F401 ignore unused imports
+ignore = E203, F401

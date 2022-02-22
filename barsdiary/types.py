@@ -13,12 +13,7 @@ ObjectType = TypeVar("ObjectType", bound="BaseResponse")
 
 
 class APIError(BaseException):
-    def __init__(
-            self,
-            resp: ClientResponse,
-            session: ClientSession,
-            json: Optional[dict] = None
-    ):
+    def __init__(self, resp: ClientResponse, session: ClientSession, json: Optional[dict] = None):
         self.resp = resp
         self.session = session
         self.json = json
@@ -50,6 +45,7 @@ class BaseResponse(BaseModel):
 
 # /rest/login
 
+
 class ChildObject(BaseModel):
     id: int
     name: str
@@ -65,29 +61,29 @@ class LoginObject(BaseResponse):
 
     @classmethod
     def reformat(cls: Type[ObjectType], obj: dict) -> ObjectType:
-        return cls.parse_obj({
-            'success': obj.get("success"),
-            'children': [
-                {
-                    "id": child[0],
-                    "name": child[1],
-                    "school": child[2]
-                } for child in obj.get("childs", [])  # stupid api
-            ],
-            'profile_id': obj.get("profile_id"),
-            'id': obj.get("id"),
-            'type': obj.get("type"),
-            'fio': obj.get("fio")
-        })
+        return cls.parse_obj(
+            {
+                "success": obj.get("success"),
+                "children": [
+                    {"id": child[0], "name": child[1], "school": child[2]}
+                    for child in obj.get("childs", [])  # stupid api
+                ],
+                "profile_id": obj.get("profile_id"),
+                "id": obj.get("id"),
+                "type": obj.get("type"),
+                "fio": obj.get("fio"),
+            }
+        )
 
 
 # /rest/diary
+
 
 def _mark(marks: List[list]) -> str:  # for DiaryLessonObject.info()
     if len(marks) == 0:  # no marks
         return ""
     marks_str = ""
-    for mark_list in marks[0][len(marks[0]) // 2:]:
+    for mark_list in marks[0][len(marks[0]) // 2 :]:
         for mark_str in mark_list:
             if mark_str:
                 marks_str += mark_str + "️⃣"  # use combinations of emoji
@@ -101,7 +97,9 @@ class DiaryLessonObject(BaseModel):  # TODO
     attendance: Union[list, str]  # what it?  now it's ['', 'Был']
     room: str
     next_homework: Sequence[Union[str, None]]  # first: str or none, second: ''
-    individual_homework: list = Field(alias="individualhomework")  # for beautiful use in code, now it []
+    individual_homework: list = Field(
+        alias="individualhomework"
+    )  # for beautiful use in code, now it []
     marks: List[list]  # [list for marks name, list of marks]  API IS SO STUPID!!!
     date_str: str = Field(alias="date")  # 21.12.2012
     lesson: list  # [id, str, start_time_str, end_time_str]
@@ -127,18 +125,30 @@ class DiaryLessonObject(BaseModel):  # TODO
 
     def info(self, is_chat: bool, full: bool = False) -> str:
         if full:
-            return f"📚 {self.discipline} {_mark(self.marks) if is_chat else ''}\n" \
-                   f"⌚ {self.lesson[1]} ({self.lesson[2]} -- {self.lesson[3]})\n" \
-                   f"👩‍🏫 {self.teacher}\n" \
-                   f"Тема: {self.subject if self.subject else 'Нет темы'}\n\n" \
-                   f"{self.get_homework()}\n\n" \
-                   f"🏫 {self.room}"
+            return (
+                f"📚 {self.discipline} {_mark(self.marks) if is_chat else ''}\n"
+                f"⌚ {self.lesson[1]} ({self.lesson[2]} -- {self.lesson[3]})\n"
+                f"👩‍🏫 {self.teacher}\n"
+                f"Тема: {self.subject if self.subject else 'Нет темы'}\n\n"
+                f"{self.get_homework()}\n\n"
+                f"🏫 {self.room}"
+            )
 
-        return f"⌚ {self.lesson[1]}: {self.discipline} {_mark(self.marks) if is_chat else ''}\n" \
-               f"{self.get_homework()}"
+        return (
+            f"⌚ {self.lesson[1]}: {self.discipline} {_mark(self.marks) if is_chat else ''}\n"
+            f"{self.get_homework()}"
+        )
 
 
-_day_of_week: List[str] = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+_day_of_week: List[str] = [
+    "Понедельник",
+    "Вторник",
+    "Среда",
+    "Четверг",
+    "Пятница",
+    "Суббота",
+    "Воскресенье",
+]
 
 
 class DiaryDayObject(BaseModel):
@@ -171,7 +181,7 @@ class DiaryObject(BaseResponse):
             day = {
                 "date": value_day[0],
                 "lessons": value_day[1].get("lessons"),
-                "kind": value_day[1].get("kind")
+                "kind": value_day[1].get("kind"),
             }
             data["days"].append(day)
         return cls.parse_obj(data)
@@ -181,6 +191,7 @@ class DiaryObject(BaseResponse):
 
 
 # /rest/progress_average
+
 
 def _check_value_of_mark(value: str) -> Union[bool, float]:  # for ProgressDataObject
     if not 1.00 <= float(value) <= 5.00:
@@ -215,8 +226,10 @@ class ProgressDataObject(BaseModel):
 
     def info(self) -> str:
         if self.data:
-            return "\n".join(f"{_bar(mark)} [{mark:.2f}] {subject}"
-                             for subject, mark in sorted(self.data.items(), key=lambda v: (-v[1], v[0])))
+            return "\n".join(
+                f"{_bar(mark)} [{mark:.2f}] {subject}"
+                for subject, mark in sorted(self.data.items(), key=lambda v: (-v[1], v[0]))
+            )
         else:
             return ""
 
@@ -236,17 +249,20 @@ class ProgressAverageObject(BaseResponse):
 
 # /rest/additional_materials
 
+
 class AdditionalMaterialsObject(BaseResponse):
     kind: Optional[str]  # 26.04.2021  todo
 
 
 # /rest/school_meetings
 
+
 class SchoolMeetingsObject(BaseResponse):
     kind: Optional[str]
 
 
 # /rest/totals
+
 
 class TotalsObject(BaseResponse):  # todo how to do it better
     period: str
@@ -257,6 +273,7 @@ class TotalsObject(BaseResponse):  # todo how to do it better
 
 
 # /lessons_scores
+
 
 class ScoreObject(BaseModel):
     date: str  # 2012-21-12
@@ -284,11 +301,13 @@ class LessonsScoreObject(BaseResponse):
                 return f"🚧 {self.kind}"
             else:
                 return f"📅 {self.sub_period}"
-        return f"📅 {self.sub_period}\n\n" + \
-               "\n".join(f"{lesson}:\n{get_score_stat(score)}" for lesson, score in self.data.items())
+        return f"📅 {self.sub_period}\n\n" + "\n".join(
+            f"{lesson}:\n{get_score_stat(score)}" for lesson, score in self.data.items()
+        )
 
 
 # /check_food
+
 
 class CheckFoodObject(BaseModel):
     food_plugin: str  # "NO" and maybe "YES"
@@ -309,5 +328,5 @@ __all__ = (
     "TotalsObject",
     "ScoreObject",
     "LessonsScoreObject",
-    "CheckFoodObject"
+    "CheckFoodObject",
 )

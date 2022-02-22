@@ -10,5 +10,14 @@ DiaryApi Module
 >>>     print(lesson.discipline)
 """
 from .api import DiaryApi
-from .types import (APIError, AdditionalMaterialsObject, CheckFoodObject, DiaryObject, LessonsScoreObject, LoginObject,
-                    ProgressAverageObject, SchoolMeetingsObject, TotalsObject)
+from .types import (
+    AdditionalMaterialsObject,
+    APIError,
+    CheckFoodObject,
+    DiaryObject,
+    LessonsScoreObject,
+    LoginObject,
+    ProgressAverageObject,
+    SchoolMeetingsObject,
+    TotalsObject,
+)
