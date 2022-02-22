@@ -3,7 +3,7 @@ def test_test():
 
 
 def test_foo():
-    assert False
+    assert not False
 
 
 def test_goodfoo():

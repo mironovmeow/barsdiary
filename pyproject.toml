@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "barsdiary"
-version = "0.0.1"
+version = "0.0.2"
 description = "Python library for working with API \"БАРС.Web-Образование\""
 license = "MIT"
 readme = "README.md"
