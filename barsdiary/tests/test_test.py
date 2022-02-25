@@ -4,7 +4,3 @@ def test_test():
 
 def test_foo():
     assert not False
-
-
-def test_goodfoo():
-    assert True
