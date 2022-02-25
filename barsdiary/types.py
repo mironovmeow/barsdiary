@@ -2,9 +2,9 @@
 All types of Diary API (make on pydantic)
 """
 import datetime
+from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Sequence, Type, TypeVar, Union
 
-from aiohttp import ClientResponse, ClientSession
 from pydantic import validator
 from pydantic.fields import Field
 from pydantic.main import BaseModel
@@ -12,31 +12,28 @@ from pydantic.main import BaseModel
 ObjectType = TypeVar("ObjectType", bound="BaseResponse")
 
 
-class APIError(BaseException):
-    def __init__(self, resp: ClientResponse, session: ClientSession, json: Optional[dict] = None):
-        self.resp = resp
-        self.session = session
-        self.json = json
+class APIError(ABC, BaseException):
+    @abstractmethod
+    def __init__(self, resp, session, json):
+        ...
 
     @property
-    def code(self):
-        if self.json:
-            return self.json.get("error_code", self.resp.status)
-        else:
-            return self.resp.status
+    @abstractmethod
+    def code(self) -> int:
+        ...
 
+    @abstractmethod
     def __str__(self):
-        return f"APIError [{self.resp.status}] {self.json}"
+        ...
 
     @property
+    @abstractmethod
     def json_success(self) -> bool:
-        if self.json:
-            return self.json.get("success", False)
-        return False
+        ...
 
 
 class BaseResponse(BaseModel):
-    success: bool  # checking in /diary/api.py
+    success: bool  # checking in sync.py and aio.py
 
     @classmethod
     def reformat(cls: Type[ObjectType], obj: dict) -> ObjectType:

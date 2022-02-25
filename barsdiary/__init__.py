@@ -9,10 +9,9 @@ DiaryApi Module
 >>>     lesson = diary.days[0].lessons[0]
 >>>     print(lesson.discipline)
 """
-from .api import DiaryApi
+from .sync import APIError, DiaryApi
 from .types import (
     AdditionalMaterialsObject,
-    APIError,
     CheckFoodObject,
     DiaryObject,
     LessonsScoreObject,
