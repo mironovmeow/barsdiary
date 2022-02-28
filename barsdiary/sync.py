@@ -1,5 +1,5 @@
 """
-Api module (on aiohttp)
+Api module (on requests)
 """
 from json import JSONDecodeError
 from typing import Optional, Type
