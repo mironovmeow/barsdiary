@@ -4,14 +4,16 @@ Api module (on requests)
 from json import JSONDecodeError
 from typing import Optional, Type
 
+from httpx import Client, Response
 from loguru import logger
-from requests import Response, Session
 
 from . import types
 
+USER_AGENT = "barsdiary/0.2.0-a1"
+
 
 class APIError(types.APIError):
-    def __init__(self, resp: Response, session: Session, json: Optional[dict] = None):
+    def __init__(self, resp: Response, session: Client, json: Optional[dict] = None):
         self.resp = resp
         self.session = session
         self.json = json
@@ -33,8 +35,8 @@ class APIError(types.APIError):
         return False
 
 
-def _check_response(r: Response, session: Session) -> dict:
-    if not r.ok:
+def _check_response(r: Response, session: Client) -> dict:
+    if r.status_code >= 400:
         logger.info(f"Request failed. Bad status: {r.status_code}")
         raise APIError(r, session)
 
@@ -58,7 +60,7 @@ def _check_response(r: Response, session: Session) -> dict:
 
 
 class DiaryApi:
-    def __init__(self, host: str, session: Session, sessionid: str, user_information: dict):
+    def __init__(self, host: str, session: Client, sessionid: str, user_information: dict):
         self._host = host
         self._session = session
         self.sessionid = sessionid
@@ -91,23 +93,20 @@ class DiaryApi:
     def auth_by_diary_session(
         cls, host: str, diary_session: str, diary_information: dict
     ) -> "DiaryApi":
-        session = Session()
-        session.headers["User-Agent"] += " barsdiary/0.0.0"
-        session.cookies.set("sessionid", diary_session)
+        session = Client(headers={"User-Agent": USER_AGENT}, cookies={"sessionid": diary_session})
         return cls(host, session, diary_session, diary_information)
 
     @classmethod
     def auth_by_login(cls, host: str, login: str, password: str) -> "DiaryApi":
         logger.debug('Request "login" with data {"login": ..., "password": ...}')
-        session = Session()
-        session.headers["User-Agent"] += " barsdiary/0.0.0"
-        r = session.get(f"https://{host}/rest/login?" f"login={login}&password={password}")
+        session = Client(headers={"User-Agent": USER_AGENT})
+        r = session.get(f"https://{host}/rest/login?login={login}&password={password}")
         json = _check_response(r, session)
         diary_cookie = r.cookies.get("sessionid")
         if not diary_cookie:
             raise ValueError("Authorization failed. No cookie.")
 
-        return cls(host, session, diary_cookie.value, json)
+        return cls(host, session, diary_cookie, json)
 
     def diary(
         self, from_date: str, to_date: Optional[str] = None, *, child: int = 0

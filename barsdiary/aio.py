@@ -21,6 +21,8 @@ except ImportError:
         "You can fix this by running ``pip install barsdiary[async]``"
     )
 
+USER_AGENT = "barsdiary/0.2.0-a1"
+
 
 class APIError(types.APIError):
     def __init__(self, resp: ClientResponse, session: ClientSession, json: Optional[dict] = None):
@@ -108,11 +110,7 @@ class DiaryApi:
         cls, host: str, diary_session: str, diary_information: dict
     ) -> "DiaryApi":
         session = ClientSession(
-            headers={
-                "User-Agent": "MeowApi/3 (vk.com/schoolbot04)",
-                "Connection": "keep-alive",
-            },
-            connector=TCPConnector(ssl=False),  # it's bad, i know
+            headers={"User-Agent": USER_AGENT},
             cookies={"sessionid": diary_session},
             timeout=ClientTimeout(10),
         )
@@ -122,8 +120,7 @@ class DiaryApi:
     async def auth_by_login(cls, host: str, login: str, password: str) -> "DiaryApi":
         logger.debug('Request "login" with data {"login": ..., "password": ...}')
         session = ClientSession(
-            headers={"User-Agent": "MeowApi/3 (vk.com/schoolbot04)"},
-            connector=TCPConnector(ssl=False),  # it's bad, i know
+            headers={"User-Agent": USER_AGENT},
             timeout=ClientTimeout(10),
         )
         async with session.get(
