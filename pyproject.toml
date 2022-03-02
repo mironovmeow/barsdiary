@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "barsdiary"
-version = "0.0.2-alpha1"
+version = "0.0.3-alpha0"
 description = "Python library for working with API \"БАРС.Web-Образование\""
 license = "MIT"
 readme = "README.md"
@@ -23,8 +23,12 @@ exclude = ["barsdiary/tests/**"]
 python = "^3.7"
 pydantic = "^1.9.0"
 loguru = "^0.6.0"
-aiohttp = "^3.8.1"
-httpx = "^0.22.0"
+httpx = {version = "^0.22.0", optional = true}
+aiohttp = {version = "^3.8.1", optional = true}
+
+[tool.poetry.extras]
+sync = ["httpx"]
+async = ["aiohttp"]
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.17.0"

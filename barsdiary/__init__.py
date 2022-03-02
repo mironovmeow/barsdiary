@@ -1,15 +1,14 @@
 """
-DiaryApi Module
+BarsDiary Module
 
->>> from barsdiary import DiaryApi
+>>> from barsdiary.sync import DiaryApi
+>>> # or barsdiary.aio
 >>>
->>> user_api = await DiaryApi.auth_by_login("login", "password")
->>> async with user_api:
->>>     diary = await user_api.diary("12.12.2021")
+>>> with DiaryApi.auth_by_login("login", "password") as user_api:
+>>>     diary = user_api.diary("12.12.2021")
 >>>     lesson = diary.days[0].lessons[0]
 >>>     print(lesson.discipline)
 """
-from .sync import DiaryApi
 from .types import (
     AdditionalMaterialsObject,
     APIError,
@@ -21,3 +20,5 @@ from .types import (
     SchoolMeetingsObject,
     TotalsObject,
 )
+
+__version__ = "0.0.3-a0"

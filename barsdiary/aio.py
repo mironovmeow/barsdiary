@@ -5,7 +5,7 @@ from typing import Optional, Type
 
 from loguru import logger
 
-from . import types
+from . import __version__, types
 
 try:
     from aiohttp import (
@@ -17,11 +17,11 @@ try:
     )
 except ImportError:
     raise ImportError(
-        "'aiohttp' are not installed.\n"
+        "'aiohttp' is not installed.\n"
         "You can fix this by running ``pip install barsdiary[async]``"
     )
 
-USER_AGENT = "barsdiary/0.2.0-a1"
+USER_AGENT = f"barsdiary/{__version__}"
 
 
 class APIError(types.APIError):
@@ -205,7 +205,4 @@ class DiaryApi:
             return types.CheckFoodObject.parse_obj(json)
 
 
-__all__ = (
-    "APIError",
-    "DiaryApi",
-)
+__all__ = ("DiaryApi",)

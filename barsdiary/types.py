@@ -1,5 +1,5 @@
 """
-All types of Diary API (make on pydantic)
+BarsDiary Types (on pydantic)
 """
 import datetime
 from abc import ABC, abstractmethod

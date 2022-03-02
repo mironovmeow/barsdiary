@@ -1,15 +1,21 @@
 """
-Api module (on requests)
+Api module (on httpx)
 """
 from json import JSONDecodeError
 from typing import Optional, Type
 
-from httpx import Client, Response
 from loguru import logger
 
-from . import types
+from . import __version__, types
 
-USER_AGENT = "barsdiary/0.2.0-a1"
+try:
+    from httpx import Client, Response
+except ImportError:
+    raise ImportError(
+        "'httpx' is not installed.\nYou can fix this by running ``pip install barsdiary[sync]``"
+    )
+
+USER_AGENT = f"barsdiary/{__version__}"
 
 
 class APIError(types.APIError):
@@ -180,7 +186,4 @@ class DiaryApi:
         return types.CheckFoodObject.parse_obj(json)
 
 
-__all__ = (
-    "APIError",
-    "DiaryApi",
-)
+__all__ = ("DiaryApi",)
