@@ -31,6 +31,8 @@ sync = ["httpx"]
 async = ["aiohttp"]
 
 [tool.poetry.dev-dependencies]
+httpx = "^0.22.0"
+aiohttp = "^3.8.1"
 pre-commit = "^2.17.0"
 flake8 = "^4.0.1"
 mypy = "^0.931"

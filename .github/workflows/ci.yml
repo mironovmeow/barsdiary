@@ -7,12 +7,14 @@ on:
       - 'barsdiary/**'
       - '.flake8'
       - '.github/workflows/ci.yml'
+      - 'pyproject.toml'
   pull_request:
     branches: [ master, dev ]
     paths:
       - 'barsdiary/**'
       - '.flake8'
       - '.github/workflows/ci.yml'
+      - 'pyproject.toml'
 
 jobs:
   full-testing:
