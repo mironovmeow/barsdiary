@@ -99,13 +99,15 @@ class DiaryApi:
     def auth_by_diary_session(
         cls, host: str, diary_session: str, diary_information: dict
     ) -> "DiaryApi":
-        session = Client(headers={"User-Agent": USER_AGENT}, cookies={"sessionid": diary_session})
+        session = Client(
+            headers={"User-Agent": USER_AGENT}, cookies={"sessionid": diary_session}, verify=False
+        )
         return cls(host, session, diary_session, diary_information)
 
     @classmethod
     def auth_by_login(cls, host: str, login: str, password: str) -> "DiaryApi":
         logger.debug('Request "login" with data {"login": ..., "password": ...}')
-        session = Client(headers={"User-Agent": USER_AGENT})
+        session = Client(headers={"User-Agent": USER_AGENT}, verify=False)
         r = session.get(f"https://{host}/rest/login?login={login}&password={password}")
         json = _check_response(r, session)
         diary_cookie = r.cookies.get("sessionid")

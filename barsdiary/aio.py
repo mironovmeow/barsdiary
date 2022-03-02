@@ -110,6 +110,7 @@ class DiaryApi:
         cls, host: str, diary_session: str, diary_information: dict
     ) -> "DiaryApi":
         session = ClientSession(
+            connector=TCPConnector(verify_ssl=False),
             headers={"User-Agent": USER_AGENT},
             cookies={"sessionid": diary_session},
             timeout=ClientTimeout(10),
@@ -120,6 +121,7 @@ class DiaryApi:
     async def auth_by_login(cls, host: str, login: str, password: str) -> "DiaryApi":
         logger.debug('Request "login" with data {"login": ..., "password": ...}')
         session = ClientSession(
+            connector=TCPConnector(verify_ssl=False),
             headers={"User-Agent": USER_AGENT},
             timeout=ClientTimeout(10),
         )

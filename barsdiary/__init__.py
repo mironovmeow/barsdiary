@@ -21,4 +21,4 @@ from .types import (
     TotalsObject,
 )
 
-__version__ = "0.0.3-a0"
+__version__ = "0.0.3-a1"
