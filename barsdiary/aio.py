@@ -207,4 +207,7 @@ class DiaryApi:
             return types.CheckFoodObject.parse_obj(json)
 
 
-__all__ = ("DiaryApi",)
+__all__ = (
+    "DiaryApi",
+    "APIError",
+)

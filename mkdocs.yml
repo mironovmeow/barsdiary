@@ -1,0 +1,19 @@
+site_name: barsdiary docs
+site_description: lorem
+site_author: mironovmeow
+site_url: https://test.ru
+repo_name: mironovmeow/barsdiary
+repo_url: https://github.com/ironovmeow/barsdiary
+edit_uri: edit/master/docs/
+
+copyright: TEST COPYRIGHT
+
+nav:
+  - Обзор: overview.md
+  - test: index.md
+
+theme:
+  name: material
+  language: ru
+
+lang: ru
