@@ -21,4 +21,5 @@ from .types import (
     TotalsObject,
 )
 
-__version__ = "0.1.1"
+# using in user-agent in requests
+__version__ = "0.1.2"

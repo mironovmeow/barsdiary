@@ -23,14 +23,14 @@ jobs:
         os:
           - ubuntu-latest
         python-version:
-          - 3.9
+          - '3.11'
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -67,21 +67,21 @@ jobs:
           - macos-latest
           - windows-latest
         python-version:
-          - 3.7
           - 3.8
           - 3.9
           - '3.10'
+          - '3.11'
         exclude:
           # this OS and Python were used in full-testing job.
           - os: ubuntu-latest
-            python-version: 3.9
+            python-version: '3.11'
 
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 

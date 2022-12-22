@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "barsdiary"
-version = "0.1.1"
+version = "0.1.2"
 description = "Python library for working with API \"БАРС.Web-Образование\""
 license = "MIT"
 readme = "README.md"
@@ -20,26 +20,26 @@ exclude = ["barsdiary/tests/**"]
 "Bug Tracker" = "https://github.com/mironovmeow/barsdiary/issues"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-pydantic = "^1.9.0"
+python = "^3.8.1"
+pydantic = "^1.10.2"
 loguru = "^0.6.0"
-httpx = {version = ">=0.22,<0.24", optional = true}
-aiohttp = {version = "^3.8.1", optional = true}
+httpx = {version = "^0.23.1", optional = true}
+aiohttp = {version = "^3.8.3", optional = true}
 
 [tool.poetry.extras]
 sync = ["httpx"]
 async = ["aiohttp"]
 
-[tool.poetry.dev-dependencies]
-httpx = ">=0.22,<0.24"
-aiohttp = "^3.8.1"
+[tool.poetry.group.dev.dependencies]
+httpx = "^0.23.1"
+aiohttp = "^3.8.3"
 
-pre-commit = "^2.18.1"
-black = "^22.3.0"
-isort = "^5.10.1"
-flake8 = "^4.0.1"
-mypy = "^0.942"
-pytest = "^7.1.1"
+pre-commit = "^2.20.0"
+black = "^22.12.0"
+isort = "^5.11.4"
+flake8 = "^6.0.0"
+mypy = "^0.991"
+pytest = "^7.2.0"
 
 [tool.isort]
 line_length = 99
