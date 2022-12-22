@@ -22,4 +22,4 @@ from .types import (
 )
 
 # using in user-agent in requests
-__version__ = "0.1.2"
+__version__ = "0.1.3"
