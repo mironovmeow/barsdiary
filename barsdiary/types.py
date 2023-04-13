@@ -142,7 +142,7 @@ class ProgressAverageObject(BaseResponse):
 # /rest/additional_materials
 
 
-class MaterialDataObject(BaseResponse):
+class MaterialDataObject(BaseModel):
     name: str
     file: str  # URL
 
