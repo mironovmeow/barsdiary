@@ -142,8 +142,14 @@ class ProgressAverageObject(BaseResponse):
 # /rest/additional_materials
 
 
+class MaterialDataObject(BaseResponse):
+    name: str
+    file: str  # URL
+
+
 class AdditionalMaterialsObject(BaseResponse):
-    kind: Optional[str]  # 26.04.2021  todo
+    kind: Optional[str]
+    data: Optional[List[MaterialDataObject]]
 
 
 # /rest/school_meetings
